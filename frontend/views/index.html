@@ -1,0 +1,42 @@
+<div id="content">
+  <script>
+    function _onSubmitHandler() {
+      var r = new XMLHttpRequest();
+      r.open("GET", "/assets", true);
+      r.setRequestHeader("Authorization",localStorage.getItem('Authorization'));
+      r.onreadystatechange = function () {
+        if (r.readyState != 4 || r.status != 200) return;
+        document.getElementById('request-response').innerHTML = r.responseText;
+      };
+      r.send("hello=world");
+      console.log('Sent request to frontend server');
+    }
+
+    function setLocalStorage(value) {
+      localStorage.setItem('Authorization', value);
+    }
+
+    setLocalStorage('1');
+
+    function _onSwitchHandler() {
+      var value = localStorage.getItem('Authorization');
+      value = (value === '1' ? '2' : '1');
+      setLocalStorage(value);
+      document.getElementById('header-switch').innerHTML = 'Toggle header (current: ' + value + ')';
+      console.log('Changed authorization header to: ' + value);
+    }
+
+  </script>
+  <button onClick="_onSubmitHandler()">Submit request</button>
+  <button id="header-switch" onClick="_onSwitchHandler()">Toggle header (current: 1)</button>
+</div>
+
+
+<h2 style="margin-top: 30px;">Raw response</h2>
+<div id="request-response" style="margin-top: 20px;">
+  <ul>
+    <li>Press "Submit request" to make a request through the frontend haproxy.</li>
+    <li>Press "Toggle header" to change the header value that will be used to select nodes using the "hdr" algorithm of haproxy</li>
+  </ul>
+
+</div>

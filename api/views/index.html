@@ -1,0 +1,14 @@
+<div id="content">
+  <script>
+    function _onClickHandler() {
+      var r = new XMLHttpRequest();
+      r.open("GET", "/assets", true);
+      r.onreadystatechange = function () {
+        if (r.readyState != 4 || r.status != 200) return;
+        alert("Success: " + r.responseText);
+      };
+      r.send("banana=yellow");
+    }
+  </script>
+  <button onClick="_onClickHandler()">Click me</button>
+</div>
